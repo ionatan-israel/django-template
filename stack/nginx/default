@@ -1,6 +1,6 @@
 server {
     listen 80 default_server;
-    server_name '{{ project_name }}'app;
+    server_name {{ project_name }}app;
 
     client_max_body_size 50M;
     charset utf-8;
@@ -19,7 +19,7 @@ server {
     }
 
     location /static {
-        alias /home/user/"{{ project_name }}"/static;
+        alias /home/user/{{ project_name }}/static;
         expires 30d;
     }
 }
