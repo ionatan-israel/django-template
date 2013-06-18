@@ -1,7 +1,5 @@
 """Development settings and globals."""
-
 from os.path import join, normpath
-
 from base import *
 
 
@@ -25,7 +23,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': normpath(join(DJANGO_ROOT, 'db/default.db')),
+        'NAME': 'db/default.db',
         'USER': '',
         'PASSWORD': '',
         'HOST': '',

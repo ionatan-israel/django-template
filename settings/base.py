@@ -1,34 +1,24 @@
 """Common settings and globals."""
+from .pipeline import *
+from os import path, pardir
+import sys
 
-from os.path import abspath, basename, dirname, join, normpath
-from sys import path
 
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
-DJANGO_ROOT = dirname(dirname(abspath(__file__)))
+PROJECT_ROOT = path.dirname(path.abspath(__file__))
 
 # Absolute filesystem path to the top-level project folder:
-SITE_ROOT = dirname(DJANGO_ROOT)
+SITE_ROOT = path.dirname(PROJECT_ROOT)
 
 # Site name:
-SITE_NAME = basename(DJANGO_ROOT)
-
-# Add our project to our pythonpath, this way we don't need to type our project
-# name in our dotted import paths:
-path.append(DJANGO_ROOT)
+SITE_NAME = path.basename(PROJECT_ROOT)
 
 # Agrego "apps" para que se reconozcan en ese directorio las apps
 # path.append(path.join("apps"))
+sys.path.append(path.join("apps"))
+
 ########## END PATH CONFIGURATION
-
-
-########## DEBUG CONFIGURATION
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#debug
-DEBUG = True
-
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
-TEMPLATE_DEBUG = DEBUG
-########## END DEBUG CONFIGURATION
 
 
 ########## MANAGER CONFIGURATION
@@ -42,24 +32,9 @@ MANAGERS = ADMINS
 ########## END MANAGER CONFIGURATION
 
 
-########## DATABASE CONFIGURATION
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db/default.db',                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    }
-}
-########## END DATABASE CONFIGURATION
-
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -87,30 +62,37 @@ USE_TZ = True
 
 ########## MEDIA CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-root
-MEDIA_ROOT = normpath(join(SITE_ROOT, 'media'))
+MEDIA_ROOT = ''
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
-MEDIA_URL = '/media/'
+MEDIA_URL = ''
 ########## END MEDIA CONFIGURATION
 
 ########## STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = normpath(join(SITE_ROOT, 'assets'))
+STATIC_ROOT = path.join(PROJECT_ROOT, pardir, 'static')
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
-    normpath(join(SITE_ROOT, 'static')),
+    # Put strings here, like "/home/html/static" or "C:/www/django/static".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    #path.join(PROJECT_ROOT, pardir, 'librerias'),
+    path.join(PROJECT_ROOT, pardir, 'librerias'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = (
+    #'staticfiles.finders.FileSystemFinder',
+    #'staticfiles.finders.AppDirectoriesFinder',
+    #'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
-########## END STATIC FILE CONFIGURATION
+    'dajaxice.finders.DajaxiceFinder',
+)########## END STATIC FILE CONFIGURATION
 
 
 ########## SECRET CONFIGURATION
@@ -123,7 +105,9 @@ SECRET_KEY = "{{ secret_key }}"
 ########## FIXTURE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
 FIXTURE_DIRS = (
-    normpath(join(SITE_ROOT, 'fixtures')),
+    # path.join(PROJECT_ROOT, pardir, "apps/accounts/fixtures/"),
+    # path.join(PROJECT_ROOT, pardir, "apps/geco_solicitudes/fixtures/"),
+    # path.join(PROJECT_ROOT, pardir, "apps/gecoapp/fixtures/"),
 )
 ########## END FIXTURE CONFIGURATION
 
@@ -236,3 +220,9 @@ LOGGING = {
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 ########## END WSGI CONFIGURATION
+
+# Intentamos cargar los parametros locales.
+try:
+    from local import *
+except ImportError:
+    from production import *
