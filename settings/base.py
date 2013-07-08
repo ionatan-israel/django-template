@@ -168,6 +168,7 @@ DJANGO_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'grappelli',
+    'pipeline',
     'django.contrib.admin',
 )
 
