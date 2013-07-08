@@ -136,7 +136,7 @@ TEMPLATE_LOADERS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
 TEMPLATE_DIRS = (
-    normpath(join(SITE_ROOT, 'templates')),
+    path.join(PROJECT_ROOT, pardir, 'templates')
 )
 ########## END TEMPLATE CONFIGURATION
 
