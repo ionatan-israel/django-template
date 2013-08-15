@@ -1,6 +1,9 @@
 """Common settings and globals."""
-from .pipeline import *
+from colorlog import ColoredFormatter
 from os import path, pardir
+from settings.pipeline import *
+import json
+import logging
 import sys
 
 
@@ -8,17 +11,9 @@ import sys
 # Absolute filesystem path to the Django project directory:
 PROJECT_ROOT = path.dirname(path.abspath(__file__))
 
-# Absolute filesystem path to the top-level project folder:
-SITE_ROOT = path.dirname(PROJECT_ROOT)
-
-# Site name:
-SITE_NAME = path.basename(PROJECT_ROOT)
-
 # Agrego "apps" para que se reconozcan en ese directorio las apps
 # path.append(path.join("apps"))
 sys.path.append(path.join("apps"))
-
-########## END PATH CONFIGURATION
 
 
 ########## MANAGER CONFIGURATION
@@ -29,7 +24,6 @@ ADMINS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
-########## END MANAGER CONFIGURATION
 
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
@@ -66,7 +60,7 @@ MEDIA_ROOT = ''
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#media-url
 MEDIA_URL = ''
-########## END MEDIA CONFIGURATION
+
 
 ########## STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
@@ -92,27 +86,25 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'dajaxice.finders.DajaxiceFinder',
-)########## END STATIC FILE CONFIGURATION
+)
 
 
 ########## SECRET CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # Note: This key only used for development and testing.
 SECRET_KEY = "{{ secret_key }}"
-########## END SECRET CONFIGURATION
-
-
-########## FIXTURE CONFIGURATION
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
-FIXTURE_DIRS = (
-    # path.join(PROJECT_ROOT, pardir, "apps/accounts/fixtures/"),
-    # path.join(PROJECT_ROOT, pardir, "apps/geco_solicitudes/fixtures/"),
-    # path.join(PROJECT_ROOT, pardir, "apps/gecoapp/fixtures/"),
-)
-########## END FIXTURE CONFIGURATION
 
 
 ########## TEMPLATE CONFIGURATION
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
+TEMPLATE_LOADERS = (
+    ('pyjade.ext.django.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
+        'django.template.loaders.eggs.Loader',  # Necesario para dajaxice
+    )),
+)
+
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
@@ -125,20 +117,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.request',
 )
 
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
-TEMPLATE_LOADERS = (
-    ('pyjade.ext.django.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-        'django.template.loaders.eggs.Loader',  # Necesario para dajaxice
-    )),
-)
-
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
 TEMPLATE_DIRS = (
     path.join(PROJECT_ROOT, pardir, 'templates')
 )
-########## END TEMPLATE CONFIGURATION
+
+########## FIXTURE CONFIGURATION
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
+FIXTURE_DIRS = (
+    # path.join(PROJECT_ROOT, pardir, "apps/accounts/fixtures/"),
+    # path.join(PROJECT_ROOT, pardir, "apps/geco_solicitudes/fixtures/"),
+    # path.join(PROJECT_ROOT, pardir, "apps/gecoapp/fixtures/"),
+)
 
 
 ########## MIDDLEWARE CONFIGURATION
@@ -151,12 +141,15 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
-########## END MIDDLEWARE CONFIGURATION
 
 ########## URL CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
-ROOT_URLCONF = '%s.urls' % SITE_NAME
-########## END URL CONFIGURATION
+ROOT_URLCONF = '{{project_name}}.urls'
+
+
+########## WSGI CONFIGURATION
+# See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
+WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
 
 ########## APP CONFIGURATION
@@ -174,8 +167,8 @@ DJANGO_APPS = (
 
 THIRD_PARTY_APPS = (
     # Database migration helpers:
+    'pyjade',
     'south',
-    'pyjade',  # JADE Support
 )
 
 # Apps specific for this project go here.
@@ -184,7 +177,6 @@ LOCAL_APPS = (
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-########## END APP CONFIGURATION
 
 
 ########## LOGGING CONFIGURATION
@@ -196,35 +188,62 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # more details on how to customize your logging configuration.
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)-8s %(message)s'
+        },
+        'colored': {
+            '()': 'colorlog.ColoredFormatter',
+            'format': "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s"
+        }
+    },
     'filters': {
         'require_debug_false': {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
     'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'django.utils.log.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'colored',
+        },
         'mail_admins': {
             'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
             'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
         }
     },
+    # Canales loggers
     'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
+        'django': {
+            'handlers': ['console'],
+            #'filters': [],
             'propagate': True,
+            'level': 'INFO',
         },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        }
     }
 }
 
-########## WSGI CONFIGURATION
-# See: https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
-WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
-########## END WSGI CONFIGURATION
+
+SESSION_COOKIE_AGE = 3600
+
 
 # Intentamos cargar los parametros locales.
 try:
-    from local import *
+    from settings.local_settings import *
 except ImportError:
-    from production import *
+    from settings.production import *
