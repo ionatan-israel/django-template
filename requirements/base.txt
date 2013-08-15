@@ -1,7 +1,8 @@
-Django==1.5.1
 bpython==0.12
+colorlog==1.8
 django-braces==0.2.1
 django-model-utils==1.1.0
+Django==1.5.1
 logutils==0.3.3
-South==0.7.6
 pyjade==2.0.2
+South==0.7.6
