@@ -29,10 +29,10 @@ DATABASES = {
 ### CONFIGURACION DE CORREO
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = cfg['user']
-EMAIL_HOST_PASSWORD = cfg['pass']
+EMAIL_HOST = cfg['email']['host']
+EMAIL_PORT = cfg['email']['port']
+EMAIL_HOST_USER = cfg['email']['user']
+EMAIL_HOST_PASSWORD = cfg['email']['pass']
 EMAIL_USE_TLS = True
 
 
