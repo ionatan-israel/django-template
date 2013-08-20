@@ -1,3 +1,5 @@
+config.json
+
 # Python bytecode:
 *.py[co]
 
