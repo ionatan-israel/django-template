@@ -6,6 +6,7 @@ import json
 import logging
 import sys
 
+logger = logging.getLogger('django')
 
 ########## PATH CONFIGURATION
 # Absolute filesystem path to the Django project directory:
@@ -85,7 +86,7 @@ STATICFILES_FINDERS = (
     #'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'dajaxice.finders.DajaxiceFinder',
+    #'dajaxice.finders.DajaxiceFinder',
 )
 
 
@@ -153,27 +154,24 @@ WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
 
 ########## APP CONFIGURATION
-DJANGO_APPS = (
+DJANGO_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
+]
+
+THIRD_PARTY_APPS = [
     'grappelli',
     'pipeline',
-    'django.contrib.admin',
-)
-
-THIRD_PARTY_APPS = (
-    # Database migration helpers:
     'pyjade',
-    'south',
-)
+]
 
 # Apps specific for this project go here.
-LOCAL_APPS = (
-)
+LOCAL_APPS = []
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -238,9 +236,7 @@ LOGGING = {
     }
 }
 
-
 SESSION_COOKIE_AGE = 3600
-
 
 # Intentamos cargar los parametros locales.
 try:

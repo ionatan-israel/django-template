@@ -24,7 +24,6 @@ PIPELINE_JS = {}
     }
 """
 
-
 PIPELINE_COMPILERS = (
     'pipeline.compilers.stylus.StylusCompiler',
     'pipeline.compilers.coffee.CoffeeScriptCompiler',
