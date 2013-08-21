@@ -1,6 +1,7 @@
 #encoding:utf-8
 """Production settings and globals."""
 from settings.base import *
+from dj_database_url
 
 
 ########## DEBUG CONFIGURATION
@@ -10,28 +11,30 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 
-### BASE DE DATOS
+########## DATABASE CONFIGURATION
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',  # Or path to database file if using sqlite3.
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',  # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',  # Set to empty string for default.
-    }
+    'default': dj_database_url.config()
 }
+########## END DATABASE CONFIGURATION
+
+
+# Hosts/domain names that are valid for this site; required if DEBUG is False
+# See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
+ALLOWED_HOSTS = ['*']
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS += [
-	'gunicorn',
     'south',
 ]
 
 ####################################
 ### CONFIGURACION DE CORREO
+"""
 EMAIL_HOST = '127.0.0.1'
 MAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 25
 EMAIL_USE_TLS = False
-
+"""

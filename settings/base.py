@@ -1,7 +1,8 @@
-"""Common settings and globals."""
-from colorlog import ColoredFormatter
+# encoding:utf-8
+"""
+    Configuraciones comunes y globales
+"""
 from os import path, pardir
-from settings.pipeline import *
 import json
 import logging
 import sys
@@ -65,18 +66,14 @@ MEDIA_URL = ''
 
 ########## STATIC FILE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
-STATIC_ROOT = path.join(PROJECT_ROOT, pardir, 'static')
+STATIC_ROOT = 'staticfiles'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
 STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    #path.join(PROJECT_ROOT, pardir, 'librerias'),
-    path.join(PROJECT_ROOT, pardir, 'librerias'),
+    path.join(PROJECT_ROOT, pardir, 'static'),
 )
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
@@ -86,7 +83,6 @@ STATICFILES_FINDERS = (
     #'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    #'dajaxice.finders.DajaxiceFinder',
 )
 
 
@@ -125,11 +121,7 @@ TEMPLATE_DIRS = (
 
 ########## FIXTURE CONFIGURATION
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-FIXTURE_DIRS
-FIXTURE_DIRS = (
-    # path.join(PROJECT_ROOT, pardir, "apps/accounts/fixtures/"),
-    # path.join(PROJECT_ROOT, pardir, "apps/geco_solicitudes/fixtures/"),
-    # path.join(PROJECT_ROOT, pardir, "apps/gecoapp/fixtures/"),
-)
+FIXTURE_DIRS = ()
 
 
 ########## MIDDLEWARE CONFIGURATION
@@ -193,10 +185,6 @@ LOGGING = {
         },
         'simple': {
             'format': '%(levelname)-8s %(message)s'
-        },
-        'colored': {
-            '()': 'colorlog.ColoredFormatter',
-            'format': "%(log_color)s%(levelname)-8s%(reset)s %(blue)s%(message)s"
         }
     },
     'filters': {
@@ -212,7 +200,7 @@ LOGGING = {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'colored',
+            'formatter': 'simple',
         },
         'mail_admins': {
             'level': 'ERROR',
@@ -240,6 +228,6 @@ SESSION_COOKIE_AGE = 3600
 
 # Intentamos cargar los parametros locales.
 try:
-    from settings.local_settings import *
-except ImportError:
     from settings.production import *
+except ImportError:
+    from settings.local_settings import *
