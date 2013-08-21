@@ -158,7 +158,6 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'grappelli',
-    'pipeline',
     'pyjade',
 ]
 
