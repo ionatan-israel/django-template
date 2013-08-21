@@ -1,3 +1,9 @@
-# This file is here because many Platforms as a Service look for
-#	requirements.txt in the root directory of a project.
--r requirements/production.txt
+dj-database-url==0.2.2
+dj-static==0.0.5
+django-grappelli==2.4.5
+Django==1.5.2
+gunicorn==17.5
+psycopg2==2.5.
+pyjade==2.0.2
+South==0.8.2
+static==0.
