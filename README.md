@@ -12,6 +12,8 @@ $ django-admin.py startproject --template=https://github.com/jrperdomoz/django-t
 $ cd nombre_proyecto
 $ pip install -r requirements.txt
 $ git init
+$ git add .
+$ git commit -m 'init app django'
 $ heroku create
 $ git push heroku master
 $ heroku ps:scale web=1
