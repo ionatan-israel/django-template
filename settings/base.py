@@ -69,7 +69,7 @@ MEDIA_URL = ''
 STATIC_ROOT = 'staticfiles'
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-url
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = (
@@ -157,12 +157,15 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
+    'storages',
     'grappelli',
     'pyjade',
 ]
 
 # Apps specific for this project go here.
-LOCAL_APPS = []
+LOCAL_APPS = [
+    'main',
+]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
