@@ -7,3 +7,6 @@ psycopg2==2.5.
 pyjade==2.0.2
 South==0.8.2
 static==0.4
+boto==2.10.0
+django-boto==0.2.1
+django-storages==1.1.8
