@@ -1,7 +1,7 @@
 #encoding:utf-8
 """Production settings and globals."""
 from settings.base import *
-from dj_database_url
+import dj_database_url
 
 
 ########## DEBUG CONFIGURATION
