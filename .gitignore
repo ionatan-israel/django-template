@@ -1,3 +1,4 @@
+staticfiles
 config.json
 
 # Python bytecode:
@@ -18,5 +19,3 @@ build
 
 # Logs:
 *.log
-
-README.rst
