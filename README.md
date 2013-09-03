@@ -20,8 +20,19 @@ pip install django
 django-admin.py startproject --template=https://github.com/jrperdomoz/django-template/archive/master.zip --extension=py,conf,rst,bat nombre_proyecto
 ```
 
+```shell
+cd nombre_proyecto
+pip install -r requirements.txt
+```
+
+# Esto lo uso para la configuración de correo (es solo temporal)
+
 - Renombrar config-sample.json
 - mv config-sample.json config.json
+
+* Ahora, a empezar desarrollar vuestras apps.
+
+-----------------------------------------------------------------------
 
 
 ## Plantilla de proyectos Django 1.5.x en Heroku + Amazon S3
