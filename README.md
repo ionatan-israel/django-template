@@ -2,6 +2,10 @@
 
 ### Uso:
 
+* Primero creais vuestro entorno virtual, por ejemplo con virtualenvwrapper 
+* Luego instalais Django
+* Y despues:
+
 ```shell
 django-admin.py startproject --template=https://github.com/jrperdomoz/django-template/archive/master.zip --extension=py,conf,rst,bat nombre_proyecto
 ```
