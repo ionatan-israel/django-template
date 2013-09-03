@@ -3,6 +3,9 @@
 ### Uso:
 
 * Primero creáis vuestro entorno virtual, por ejemplo con virtualenvwrapper
+```shell
+mkvirtualenv mi_entorno
+```
 * Luego instaláis Django
 
 ```shell
