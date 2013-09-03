@@ -32,7 +32,8 @@ pip install -r requirements.txt
 
 * Ahora, a empezar desarrollar vuestras apps.
 
------------------------------------------------------------------------
+---------------------------------------
+---------------------------------------
 
 
 ## Plantilla de proyectos Django 1.5.x en Heroku + Amazon S3
@@ -59,6 +60,10 @@ $ heroku open
 
 - Renombrar config-sample.json
 - mv config-sample.json config.json
+
+
+---------------------------------------
+---------------------------------------
 
 
 ## Plantilla de app django
