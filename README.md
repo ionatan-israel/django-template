@@ -25,7 +25,7 @@ cd nombre_proyecto
 pip install -r requirements.txt
 ```
 
-# Esto lo uso para la configuración de correo (es solo temporal)
+#### Esto lo uso para la configuración de correo (es solo temporal)
 
 - Renombrar config-sample.json
 - mv config-sample.json config.json
