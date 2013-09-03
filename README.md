@@ -2,8 +2,13 @@
 
 ### Uso:
 
-* Primero creais vuestro entorno virtual, por ejemplo con virtualenvwrapper 
-* Luego instalais Django
+* Primero creáis vuestro entorno virtual, por ejemplo con virtualenvwrapper
+* Luego instaláis Django
+
+```shell
+pip install django
+```
+
 * Y despues:
 
 ```shell
