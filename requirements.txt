@@ -1,4 +1,5 @@
 django-toolbelt
+django-grappelli==2.4.6
 boto==2.10.0
 django-boto==0.2.1
 django-storages==1.1.8
