@@ -2,7 +2,6 @@
 from colorlog import ColoredFormatter
 from os import path, pardir
 from settings.pipeline import *
-import json
 import logging
 import sys
 

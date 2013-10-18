@@ -1,4 +1,5 @@
 #encoding:utf-8
+import json
 from settings.base import *
 
 cfg = json.load(file('config.json'))
@@ -39,7 +40,7 @@ EMAIL_USE_TLS = True
 
 ####################################
 ### DJANGO-DEBUG-TOOLBAR
-MIDDLEWARE_CLASSES += ['debug_toolbar.middleware.DebugToolbarMiddleware']
+MIDDLEWARE_CLASSES += ('debug_toolbar.middleware.DebugToolbarMiddleware', )
 INTERNAL_IPS = ('127.0.0.1')
 DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.version.VersionDebugPanel',
